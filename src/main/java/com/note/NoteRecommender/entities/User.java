@@ -92,7 +92,7 @@ public class User implements Serializable {
     @JoinTable(
             name="user_semester",
             joinColumns = @JoinColumn(name="user_id_fk",referencedColumnName = "user_id"),
-            inverseJoinColumns = @JoinColumn(name="semester_id_fk",referencedColumnName = "sem_id")
+            inverseJoinColumns = @JoinColumn(name="semester_id_fk",referencedColumnName = "semester_id")
     )
     private Set<Semester> semesters;
 

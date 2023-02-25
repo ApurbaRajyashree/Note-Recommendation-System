@@ -2,7 +2,6 @@ package com.note.NoteRecommender.dto;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.note.NoteRecommender.entities.Semester;
-import com.note.NoteRecommender.entities.UserDepartment;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

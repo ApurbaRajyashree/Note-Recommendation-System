@@ -35,6 +35,8 @@ public class UserServiceImpl implements UserService {
     private ModelMapper modelMapper;
     @Autowired
     private QueryHelper queryHelper;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
     @Override
     public UserDto createUser(UserDto userDto, Long departmentId) throws Exception {
@@ -108,12 +110,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByEmail(String email) {
-        User retrievedUser = this.userRepo.findByUserEmail(email);
+    public UserDto getUserByEmail(String email) {
+        User retrievedUser = this.userRepo.findByEmail(email);
         if (retrievedUser == null) {
-            throw new ResourceNotFoundException("user", "email " + email, 0l);
+            throw new ResourceNotFoundException("user", "email " + email, null);
         }
-        return retrievedUser;
+        UserDto userDto=this.getUserDto(retrievedUser);
+        return userDto;
     }
 
     @Override
@@ -215,6 +218,7 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepo.findById(userId).get();
         user.setUserStatus(UserStatus.approved);
         user.setIsEnabled(Boolean.TRUE);
+        user = this.userRepo.save(user);
         return "User approved!!!";
     }
 
@@ -284,6 +288,6 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean checkIfUserEmailExists(UserDto userDto) {
-        return StringUtils.hasText(userDto.getEmail()) && userRepo.findByUserEmail(userDto.getEmail().toLowerCase()) != null;
+        return StringUtils.hasText(userDto.getEmail()) && userRepo.findByEmail(userDto.getEmail().toLowerCase()) != null;
     }
 }

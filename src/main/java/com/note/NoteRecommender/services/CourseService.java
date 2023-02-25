@@ -6,7 +6,7 @@ import com.note.NoteRecommender.entities.Course;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
-@Service
+
 public interface CourseService {
     CourseDto createCourse(Long userId, Long departmentId, Long semesterId, CourseDto courseDto) throws Exception;
     String deleteCourse(Long userId,Long departmentId,Long semesterId,Long courseId) throws Exception;

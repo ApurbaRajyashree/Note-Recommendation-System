@@ -51,6 +51,6 @@ public class Department {
     @JsonManagedReference(value = "department_table")
     private List<Semester> semesterList;
 
-    @ManyToMany(mappedBy = "faculties")
+    @ManyToMany(mappedBy = "departments")
     private Set<User> users;
 }

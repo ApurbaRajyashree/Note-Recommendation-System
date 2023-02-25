@@ -2,6 +2,8 @@ package com.note.NoteRecommender.config;
 
 import com.note.NoteRecommender.exceptions.JwtAccessDeniedHandler;
 import com.note.NoteRecommender.exceptions.JwtAuthenticationEntryPoint;
+import com.note.NoteRecommender.filter.JwtTokenAuthorizationFilter;
+import com.note.NoteRecommender.security.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +36,9 @@ public class MyConfig {
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
 
 
@@ -58,16 +63,13 @@ public class MyConfig {
                 .build();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(this.customUserDetailService);
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;
     }
     @Bean

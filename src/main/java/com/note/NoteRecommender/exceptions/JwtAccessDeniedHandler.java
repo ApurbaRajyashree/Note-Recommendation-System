@@ -27,7 +27,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
         List<String> errors= Arrays.asList("UnAuthorized-Access Denied");
 
         ApiErrorResponse apiErrorResponse=ApiErrorResponseBuilder.getInstance()
-                .withErrorId("OnlineExam-"+ThreadContext.get("requestid"))
+                .withErrorId("NoteRecommendation-"+ThreadContext.get("requestid"))
                 .forPath(request.getRequestURI())
                 .withErrors(errors)
                 .withMessage("Unauthorized Access!")

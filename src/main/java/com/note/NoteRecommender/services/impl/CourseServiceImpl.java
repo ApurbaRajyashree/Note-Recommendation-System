@@ -20,8 +20,7 @@ import java.util.stream.Collectors;
 public class CourseServiceImpl implements CourseService {
     @Autowired
     private QueryHelper queryHelper;
-    @Autowired
-    private RoleRepositories roleRepo;
+
     @Autowired
     private CourseRepo courseRepo;
     @Autowired
@@ -150,9 +149,6 @@ public class CourseServiceImpl implements CourseService {
 
             }
         }
-
-
-
 
         return message;
     }

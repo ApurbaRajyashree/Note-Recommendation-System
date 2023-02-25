@@ -12,7 +12,7 @@ public interface UserService {
 
     UserDto  createUser(UserDto  userDto,Long departmentId) throws Exception;
 
-    User getUserByEmail(String email);
+    UserDto getUserByEmail(String email);
 
     List<User> getAllUSer();
 

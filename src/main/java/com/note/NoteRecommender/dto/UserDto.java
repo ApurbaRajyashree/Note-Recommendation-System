@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
@@ -13,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Setter
 @Getter
+@Component
 public class UserDto {
 
     private Long userId;

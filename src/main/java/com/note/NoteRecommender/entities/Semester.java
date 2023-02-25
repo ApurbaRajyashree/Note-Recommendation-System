@@ -45,8 +45,7 @@ public class Semester {
     @JsonBackReference(value = "department_table")
     private Department department;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "semester")
-    @JsonManagedReference(value = "semester_table")
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "semesters")
     private Set<User> users;
 
 

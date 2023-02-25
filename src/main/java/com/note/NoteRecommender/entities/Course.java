@@ -42,7 +42,7 @@ public class Course {
     @Column(name = "deleted")
     private Boolean deleted=Boolean.FALSE;
 
-    @ManyToMany(mappedBy = "course")
+    @ManyToMany(mappedBy = "courses")
     private Set<User> users;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "course")
