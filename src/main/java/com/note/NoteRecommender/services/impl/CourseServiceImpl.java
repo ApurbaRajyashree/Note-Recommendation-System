@@ -28,22 +28,19 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseDto createCourse(Long userId, Long departmentId, Long semesterId, CourseDto courseDto) throws Exception {
-
-
-        Course resultCourse=new Course();
-        User user=this.queryHelper.getUserMethod(userId);
-        Department department =this.queryHelper.getDepartmentMethod(departmentId);
-        Semester semester =this.queryHelper.getSemesterMethod(semesterId);
-        Set<Department> departments=user.getDepartments();
-        if(!departments.isEmpty()) {
-            for (Department eachDepartment:departments
+        Course resultCourse = new Course();
+        User user = this.queryHelper.getUserMethod(userId);
+        Semester semester = this.queryHelper.getSemesterMethod(semesterId);
+        Set<Department> departments = user.getDepartments();
+        if (!departments.isEmpty()) {
+            for (Department eachDepartment : departments
             ) {
-                if(eachDepartment.getDepartmentId().equals(departmentId)){
-                    List<Semester> semesters=eachDepartment.getSemesterList();
-                    if(!semesters.isEmpty()){
-                        for (Semester eachSemester:semesters
+                if (eachDepartment.getDepartmentId().equals(departmentId)) {
+                    List<Semester> semesters = eachDepartment.getSemesterList();
+                    if (!semesters.isEmpty()) {
+                        for (Semester eachSemester : semesters
                         ) {
-                            if(eachSemester.getSemesterId().equals(semesterId)){
+                            if (eachSemester.getSemesterId().equals(semesterId)) {
                                 List<Course> courses = semester.getCourseList();
                                 if (!courses.isEmpty()) {
                                     for (Course eachCourse : courses
@@ -52,115 +49,95 @@ public class CourseServiceImpl implements CourseService {
                                         if (retrievedCourse.getCourseTitle().equals(courseDto.getCourseTitle())) {
                                             throw new Exception("Course with the given title already exist in the given semester");
                                         }
-
                                     }
                                 }
-                                Course course=new Course();
+                                Course course = new Course();
                                 course.setCourseTitle(courseDto.getCourseTitle());
                                 course.setCourseDesc(courseDto.getCourseDesc());
 
-                                CourseDto courseDto1=new CourseDto();
+                                CourseDto courseDto1 = new CourseDto();
                                 course.setUsers(Set.of(user));
                                 user.getCourses().add(course);
                                 course.setSemester(semester);
-                                resultCourse=this.courseRepo.save(course);
+                                resultCourse = this.courseRepo.save(course);
                                 courseDto1.setCourseId(resultCourse.getCourseId());
                                 courseDto1.setCourseTitle(resultCourse.getCourseTitle());
                                 courseDto1.setCourseDesc(resultCourse.getCourseDesc());
-                                courseDto1.setSemesterDto(this.modelMapper.map(resultCourse.getSemester(),SemesterDto.class));
+                                courseDto1.setSemesterDto(this.modelMapper.map(resultCourse.getSemester(), SemesterDto.class));
                                 return courseDto1;
-
-
                             }
                         }
 
-                    }else {
-                        throw new Exception("there is no semesters for given department with id "+departmentId);
+                    } else {
+                        throw new Exception("there is no semesters for given department with id " + departmentId);
                     }
                 }
             }
-        }else {
-            throw new Exception("there is no department for the given user with id "+userId);
+        } else {
+            throw new Exception("there is no department for the given user with id " + userId);
         }
-
         return null;
     }
 
     @Override
     public String deleteCourse(Long userId, Long departmentId, Long semesterId, Long courseId) throws Exception {
-        String message="";
-        User user=this.queryHelper.getUserMethod(userId);
-        Department department=this.queryHelper.getDepartmentMethod(departmentId);
-        Semester  semester=this.queryHelper.getSemesterMethod(semesterId);
-        Course course=this.queryHelper.getCourseMethod(courseId);
+        String message = "";
+        User user = this.queryHelper.getUserMethod(userId);
+        Department department = this.queryHelper.getDepartmentMethod(departmentId);
+        Semester semester = this.queryHelper.getSemesterMethod(semesterId);
+        Course course = this.queryHelper.getCourseMethod(courseId);
 
-
-        List<Course> courses=semester.getCourseList();
-        if(courses.isEmpty()){
-            throw new Exception("There is no course for the given semester id "+semesterId);
-        }else {
-            for (Course eachCourse:courses
+        List<Course> courses = semester.getCourseList();
+        if (courses.isEmpty()) {
+            throw new Exception("There is no course for the given semester id " + semesterId);
+        } else {
+            for (Course eachCourse : courses
             ) {
-                if(eachCourse.getCourseId().equals(courseId)){
-
-                    Set<Department> departments=user.getDepartments();
-                    if(!departments.isEmpty()) {
-                        for (Department eachUserFaculties : departments
+                if (eachCourse.getCourseId().equals(courseId)) {
+                    Set<Department> departments = user.getDepartments();
+                    if (!departments.isEmpty()) {
+                        for (Department eachDepartment : departments
                         ) {
-                            if (eachUserFaculties.getDepartmentId().equals(department.getDepartmentId())) {
-                                Department department1 = eachUserFaculties;
-                                List<Semester> semesters = department1.getSemesterList();
+                            if (eachDepartment.getDepartmentId().equals(department.getDepartmentId())) {
+                                List<Semester> semesters = department.getSemesterList();
                                 if (!semesters.isEmpty()) {
-                                    for (Semester eachSemester:semesters
+                                    for (Semester eachSemester : semesters
                                     ) {
-                                        if(eachSemester.getSemesterId().equals(semester.getSemesterId())){
+                                        if (eachSemester.getSemesterId().equals(semester.getSemesterId())) {
                                             course.setSemester(null);
                                             course.setUsers(null);
                                             user.getCourses().remove(course);
-                                            List<Note> notes=course.getNoteList();
-                                            if(!notes.isEmpty()){
-                                                for (Note eachExam:notes
+                                            List<Note> notes = course.getNoteList();
+                                            if (!notes.isEmpty()) {
+                                                for (Note eachNote : notes
                                                 ) {
-                                                    eachExam.setCourse(null);
-
+                                                    eachNote.setCourse(null);
                                                 }
                                             }
-
                                             this.courseRepo.deleteById(course.getCourseId());
-                                            message="course with the id "+courseId+" deleted successfully";
-
+                                            message = "course with the id " + courseId + " deleted successfully";
                                         }
                                     }
-
-                                }else {
-                                    throw new Exception("no semesters for the given department with id "+department1.getDepartmentId());
+                                } else {
+                                    throw new Exception("no semesters for the given department with id " + department.getDepartmentId());
                                 }
-
                             }
-
                         }
-                    }else {
-                        throw new Exception("no userdepartments for the given user with id "+user.getUserId());
+                    } else {
+                        throw new Exception("no userdepartments for the given user with id " + user.getUserId());
                     }
-
                 }
-
-
-
             }
         }
-
         return message;
     }
 
     @Override
-    public CourseDto updateCourse(Long userId, Long departmentId, Long semesterId, Long courseId,CourseDto courseDto) throws Exception {
-        User retrievedUser=this.queryHelper.getUserMethod(userId);
-        Department retrievedDepartment=this.queryHelper.getDepartmentMethod(departmentId);
-        Semester retrievedSemester=this.queryHelper.getSemesterMethod(semesterId);
-        Course retrievedCourse=this.queryHelper.getCourseMethod(courseId);
-
-
+    public CourseDto updateCourse(Long userId, Long departmentId, Long semesterId, Long courseId, CourseDto courseDto) throws Exception {
+        User retrievedUser = this.queryHelper.getUserMethod(userId);
+        Department retrievedDepartment = this.queryHelper.getDepartmentMethod(departmentId);
+        Semester retrievedSemester = this.queryHelper.getSemesterMethod(semesterId);
+        Course retrievedCourse = this.queryHelper.getCourseMethod(courseId);
 
         Set<Department> userDepartments = retrievedUser.getDepartments();
         for (Department eachUserDepartment : userDepartments
@@ -175,82 +152,70 @@ public class CourseServiceImpl implements CourseService {
                         for (Course eachCourse : courses
                         ) {
                             if (eachCourse.getCourseId().equals(retrievedCourse.getCourseId())) {
-                                if(!courseDto.getCourseTitle().isEmpty()) {
+                                if (!courseDto.getCourseTitle().isEmpty()) {
                                     retrievedCourse.setCourseTitle(courseDto.getCourseTitle());
                                 }
-                                if(!courseDto.getCourseTitle().isEmpty()) {
+                                if (!courseDto.getCourseTitle().isEmpty()) {
                                     retrievedCourse.setCourseDesc(courseDto.getCourseDesc());
                                 }
-                                SemesterDto updateCat= courseDto.getSemesterDto();
-                                if(updateCat!=null) {
-                                    List<Semester> semesters1=department.getSemesterList();
-                                    for (Semester eachCat:semesters1
+                                SemesterDto updateCat = courseDto.getSemesterDto();
+                                if (updateCat != null) {
+                                    List<Semester> semesters1 = department.getSemesterList();
+                                    for (Semester eachCat : semesters1
                                     ) {
-                                        if(eachCat.getSemesterId().equals(updateCat.getSemesterId())){
-                                            Semester semester=this.queryHelper.getSemesterMethod(courseDto.getSemesterDto().getSemesterId());
+                                        if (eachCat.getSemesterId().equals(updateCat.getSemesterId())) {
+                                            Semester semester = this.queryHelper.getSemesterMethod(courseDto.getSemesterDto().getSemesterId());
                                             retrievedCourse.setSemester(semester);
                                         }
-
-
-
-
                                     }
                                 }
-                                retrievedCourse=this.courseRepo.save(retrievedCourse);
-
-
+                                retrievedCourse = this.courseRepo.save(retrievedCourse);
                             }
                         }
                     }
-
                 }
-            }
-            else {
+            } else {
                 throw new Exception("provided department does not match with the list of department created by user");
             }
 
         }
-        return this.modelMapper.map(retrievedCourse,CourseDto.class);
+        return this.modelMapper.map(retrievedCourse, CourseDto.class);
     }
-
 
 
     @Override
     public List<CourseDto> getCoursesBySemester(Long userId, Long departmentId, Long semesterId) throws Exception {
-        List<Course> retrievedCourse=new ArrayList<>();
-        List<CourseDto> courseDtos=new ArrayList<>();
-        User user=this.queryHelper.getUserMethod(userId);
-        Department department=this.queryHelper.getDepartmentMethod(departmentId);
-        Semester semester=this.queryHelper.getSemesterMethod(semesterId);
-        List<Course> courses=semester.getCourseList();
-        if(!courses.isEmpty()){
+        List<Course> retrievedCourse = new ArrayList<>();
+        List<CourseDto> courseDtos = new ArrayList<>();
+        User user = this.queryHelper.getUserMethod(userId);
+        Department department = this.queryHelper.getDepartmentMethod(departmentId);
+        Semester semester = this.queryHelper.getSemesterMethod(semesterId);
+        List<Course> courses = semester.getCourseList();
+        if (!courses.isEmpty()) {
 
-            Set<Department> userDepartments=user.getDepartments();
-            if(!userDepartments.isEmpty()){
-                for (Department eachUserDepartment:userDepartments
+            Set<Department> userDepartments = user.getDepartments();
+            if (!userDepartments.isEmpty()) {
+                for (Department eachUserDepartment : userDepartments
                 ) {
-                    if(eachUserDepartment.getDepartmentId().equals(department.getDepartmentId())){
-                        Department department1=eachUserDepartment;
-                        List<Semester> semesters=department1.getSemesterList();
+                    if (eachUserDepartment.getDepartmentId().equals(department.getDepartmentId())) {
+                        Department department1 = eachUserDepartment;
+                        List<Semester> semesters = department1.getSemesterList();
 
-                        for (Semester eachSemester:semesters
+                        for (Semester eachSemester : semesters
                         ) {
-                            if(eachSemester.getSemesterId().equals(semesterId)){
-                                retrievedCourse=this.courseRepo.findBySemester(semester);
-                                courseDtos=retrievedCourse.stream().map(course -> this.modelMapper.map(course,CourseDto.class)).collect(Collectors.toList());
+                            if (eachSemester.getSemesterId().equals(semesterId)) {
+                                retrievedCourse = this.courseRepo.findBySemester(semester);
+                                courseDtos = retrievedCourse.stream().map(course -> this.modelMapper.map(course, CourseDto.class)).collect(Collectors.toList());
                             }
                         }
                     }
 
                 }
 
-            }else{
+            } else {
                 throw new Exception("there is empty userdepartments for the given user!!!");
             }
-
-
-
-        }else {
+        } else {
             return null;
         }
         return courseDtos;
@@ -258,38 +223,38 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseDto getCourseById(Long userId, Long departmentId, Long semesterId, Long courseId) throws Exception {
-        User retrievedUser=this.queryHelper.getUserMethod(userId);
-        Department retrievedDepartment=this.queryHelper.getDepartmentMethod(departmentId);
-        Semester retrievedSemester=this.queryHelper.getSemesterMethod(semesterId);
-        Course retrievedCourse=this.queryHelper.getCourseMethod(courseId);
-        CourseDto resultCourseDto=new CourseDto();
+        User retrievedUser = this.queryHelper.getUserMethod(userId);
+        Department retrievedDepartment = this.queryHelper.getDepartmentMethod(departmentId);
+        Semester retrievedSemester = this.queryHelper.getSemesterMethod(semesterId);
+        Course retrievedCourse = this.queryHelper.getCourseMethod(courseId);
+        CourseDto resultCourseDto = new CourseDto();
 
-        Set<Department> departments=retrievedUser.getDepartments();
-        if(!departments.isEmpty()){
-            for (Department eachDepartment:departments
+        Set<Department> departments = retrievedUser.getDepartments();
+        if (!departments.isEmpty()) {
+            for (Department eachDepartment : departments
             ) {
-                if(eachDepartment.getDepartmentId().equals(departmentId)){
-                    List<Semester> semesters=eachDepartment.getSemesterList();
-                    if(!semesters.isEmpty()){
-                        for (Semester eachSemester:semesters
+                if (eachDepartment.getDepartmentId().equals(departmentId)) {
+                    List<Semester> semesters = eachDepartment.getSemesterList();
+                    if (!semesters.isEmpty()) {
+                        for (Semester eachSemester : semesters
                         ) {
-                            if(eachSemester.getSemesterId().equals(semesterId)){
-                                List<Course> courses=eachSemester.getCourseList();
-                                if(!courses.isEmpty()){
-                                    for (Course eachCourse:courses
+                            if (eachSemester.getSemesterId().equals(semesterId)) {
+                                List<Course> courses = eachSemester.getCourseList();
+                                if (!courses.isEmpty()) {
+                                    for (Course eachCourse : courses
                                     ) {
-                                        if(eachCourse.getCourseId().equals(retrievedCourse.getCourseId())){
+                                        if (eachCourse.getCourseId().equals(retrievedCourse.getCourseId())) {
                                             resultCourseDto.setCourseId(eachCourse.getCourseId());
                                             resultCourseDto.setCourseTitle(eachCourse.getCourseTitle());
-                                            resultCourseDto.setSemesterDto(this.modelMapper.map(eachCourse.getSemester(),SemesterDto.class));
+                                            resultCourseDto.setSemesterDto(this.modelMapper.map(eachCourse.getSemester(), SemesterDto.class));
                                             resultCourseDto.setNotes(eachCourse.getNoteList());
                                             return resultCourseDto;
                                         }
                                     }
 
 
-                                }else {
-                                    throw new Exception("there is no courses for the given semester with id "+semesterId);
+                                } else {
+                                    throw new Exception("there is no courses for the given semester with id " + semesterId);
                                 }
                             }
 
@@ -297,14 +262,14 @@ public class CourseServiceImpl implements CourseService {
                         }
 
 
-                    }else {
-                        throw new Exception("there is no semester for the given department with id "+departmentId);
+                    } else {
+                        throw new Exception("there is no semester for the given department with id " + departmentId);
                     }
                 }
             }
 
-        }else {
-            throw new Exception("there is no department for the given user with id "+userId);
+        } else {
+            throw new Exception("there is no department for the given user with id " + userId);
         }
 
         return null;
@@ -312,17 +277,17 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseDto> getAllCourse(Long userId) {
-        User retrievedUser=this.queryHelper.getUserMethod(userId);
-        Set<Course> courses=retrievedUser.getCourses();
-        List<CourseDto> courseDtos=new ArrayList<>();
-        if(!courses.isEmpty()){
-            for (Course eachCourse:courses
+        User retrievedUser = this.queryHelper.getUserMethod(userId);
+        Set<Course> courses = retrievedUser.getCourses();
+        List<CourseDto> courseDtos = new ArrayList<>();
+        if (!courses.isEmpty()) {
+            for (Course eachCourse : courses
             ) {
-                CourseDto courseDto=new CourseDto();
+                CourseDto courseDto = new CourseDto();
                 courseDto.setCourseId(eachCourse.getCourseId());
                 courseDto.setCourseTitle(eachCourse.getCourseTitle());
                 courseDto.setCourseDesc(eachCourse.getCourseDesc());
-                courseDto.setSemesterDto(this.modelMapper.map(eachCourse.getSemester(),SemesterDto.class));
+                courseDto.setSemesterDto(this.modelMapper.map(eachCourse.getSemester(), SemesterDto.class));
                 courseDto.setNotes(eachCourse.getNoteList());
                 courseDtos.add(courseDto);
             }

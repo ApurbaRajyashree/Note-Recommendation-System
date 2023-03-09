@@ -82,7 +82,7 @@ public class UserController {
     public ResponseEntity<?> getUserByUserEmail(@RequestParam("userEmail") String email){
         UserDto user=this.userService.getUserByEmail(email);
         if(user!=null){
-            return new ResponseEntity<UserDto>(user, HttpStatusCode.valueOf(200));
+            return new ResponseEntity<>(user, HttpStatusCode.valueOf(200));
         }else {
             return new ResponseEntity<>(new ApiResponse("user doesnot exist with the given email",false),HttpStatusCode.valueOf(200));
         }

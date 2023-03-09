@@ -32,12 +32,9 @@ public class Note {
     @Column(name = "note_id")
     private Long noteId;
 
-    @NotEmpty(message = "Enter the Course Description ")
     @Column(name = "note_description",nullable = false,length = 1000)
     private String noteDescription;
 
-
-    @NotEmpty(message = "Enter the Note Title ")
     @Column(name = "note_title",nullable = false,unique = true,length = 100)
     private String noteTitle;
 
@@ -53,27 +50,24 @@ public class Note {
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name="file_id_fk",referencedColumnName = "file_id")
     private File file;
+
     @Enumerated(EnumType.STRING)
     private NoteStatus noteStatus;
 
-    private Boolean deleted=Boolean.FALSE;
+    private Boolean deleted;
 
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name="course_id_fk",referencedColumnName = "course_id")
-    @JsonBackReference(value = "course_table")
     private Course course;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "note")
-    @JsonManagedReference(value = "note_table")
     private List<Comments> commentsList;
 
-//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "note")
-//    @JsonManagedReference(value = "note_table")
-//    private List<User> userList;
+    @Column(name = "average_rating", length = 3)
+    private Double averageRating;
 
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name="user_id_fk",referencedColumnName = "user_id")
-    @JsonBackReference(value = "user_table")
     private User user;
 
 

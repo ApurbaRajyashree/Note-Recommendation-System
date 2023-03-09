@@ -85,6 +85,4 @@ public class CourseController {
             return new ResponseEntity<>(new ApiResponse(message,false),HttpStatusCode.valueOf(200));
         }
     }
-
-
 }

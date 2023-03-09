@@ -23,7 +23,10 @@ public class NoteDto {
 
 
     private Long noteId;
+    @NotEmpty(message = "Enter the Course Description ")
     private String noteDescription;
+
+    @NotEmpty(message = "Enter the Note Title ")
     private String noteTitle;
     private String fileName;
 
@@ -37,6 +40,7 @@ public class NoteDto {
 
     private List<Comments> commentsList;
 
+    private Double averageRating;
     private User user;
 
 
