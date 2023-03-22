@@ -14,7 +14,7 @@ public interface UserService {
 
     UserDto getUserByEmail(String email);
 
-    List<User> getAllUSer();
+    List<UserDto> getAllUSer();
 
     UserDto getUserDto(User user);
 

@@ -12,7 +12,6 @@ import org.springframework.data.annotation.CreatedDate;
 import java.util.Date;
 import java.util.List;
 
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -34,6 +33,10 @@ public class Comments {
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date createdAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_comment_id", referencedColumnName = "comment_id")
+    private Comments parentComment;
 
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name="note_id_fk",referencedColumnName = "note_id")

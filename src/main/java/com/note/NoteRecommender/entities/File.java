@@ -18,7 +18,6 @@ import lombok.Setter;
 public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-   // @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name="file_id")
     private Long fileId;
 

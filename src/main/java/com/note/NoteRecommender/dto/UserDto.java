@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.Set;
 
 
@@ -15,8 +16,7 @@ import java.util.Set;
 @Setter
 @Getter
 @Component
-public class UserDto {
-
+public class UserDto implements Serializable {
     private Long userId;
     private String userName;
     private String email;

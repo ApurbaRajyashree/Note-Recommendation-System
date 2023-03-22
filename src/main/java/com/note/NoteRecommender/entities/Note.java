@@ -58,9 +58,11 @@ public class Note {
 
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name="course_id_fk",referencedColumnName = "course_id")
+    @JsonBackReference(value = "course_table")
     private Course course;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "note")
+    @JsonManagedReference(value = "note_table")
     private List<Comments> commentsList;
 
     @Column(name = "average_rating", length = 3)
@@ -68,7 +70,6 @@ public class Note {
 
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name="user_id_fk",referencedColumnName = "user_id")
+    @JsonBackReference(value = "user_table")
     private User user;
-
-
 }

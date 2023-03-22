@@ -15,9 +15,9 @@ public class CommentController {
     private CommentService commentService;
 
 
-    @PostMapping("/note/{noteId}/comments")
-    public ResponseEntity<CommentDto> createComment(@RequestBody CommentDto comments, @PathVariable Long noteId){
-           CommentDto createComment= this.commentService.createComment(comments,noteId);
+    @PostMapping("user/{userId}/note/{noteId}/comments")
+    public ResponseEntity<CommentDto> createComment(@RequestBody CommentDto comments, @PathVariable Long noteId,@PathVariable Long userId){
+           CommentDto createComment= this.commentService.createComment(userId,noteId,comments);
             return new ResponseEntity<>(createComment, HttpStatus.CREATED);
     }
 
@@ -26,6 +26,4 @@ public class CommentController {
         this.commentService.deleteComment(commentId);
         return new ResponseEntity<>(new ApiResponse("Comment Deleted Successfully",true), HttpStatus.OK);
     }
-
-
 }

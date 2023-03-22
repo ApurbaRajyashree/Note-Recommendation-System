@@ -121,15 +121,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long userId) {
-        User user = this.
-                queryHelper.getUserMethod(userId);
+        User user = this.queryHelper.getUserMethod(userId);
         return user;
     }
 
     @Override
-    public List<User> getAllUSer() {
+    public List<UserDto> getAllUSer() {
         List<User> users = this.userRepo.findAll();
-        return users;
+        List<UserDto> userDtos=users.stream().map(user -> this.modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
+        return userDtos;
     }
 
     @Override
