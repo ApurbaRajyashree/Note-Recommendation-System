@@ -34,14 +34,19 @@ public class NoteDto {
     private File file;
     private NoteStatus noteStatus;
 
-    private Boolean deleted=Boolean.FALSE;
+    private Boolean deleted = Boolean.FALSE;
 
     private Course course;
 
     private List<Comments> commentsList;
 
-    private Double averageRating;
+    private float averageRating;
+
+    private int totalRatingCount;
+
     private User user;
+
+    private List<Rating> ratings;
 
 
 }

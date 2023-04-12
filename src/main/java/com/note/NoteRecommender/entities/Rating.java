@@ -31,7 +31,9 @@ public class Rating implements Comparable<Rating>{
     @JsonBackReference(value = "user_table")
     private User user;
 
-    private double value;
+    private float value;
+
+    private float maxRating=5;
 
     public int compareTo(Rating other) {
         if (value < other.value) return -1;

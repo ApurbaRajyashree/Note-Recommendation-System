@@ -70,13 +70,11 @@ public class UserController {
         return ResponseEntity.ok(this.userService.getAllUSer());
     }
 
-    //Get byId
+
     @GetMapping("/{userId}/")
     public ResponseEntity<User> getSingleUser(@PathVariable("userId") Long userId) {
         return ResponseEntity.ok(this.userService.getUserById(userId));
     }
-
-    //Get by email
 
     @GetMapping("/readByEmail")
     public ResponseEntity<?> getUserByUserEmail(@RequestParam("userEmail") String email) {

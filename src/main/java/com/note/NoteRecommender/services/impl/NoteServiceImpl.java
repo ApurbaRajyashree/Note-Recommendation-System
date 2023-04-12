@@ -51,7 +51,8 @@ public class NoteServiceImpl implements NoteService {
                                     note.setCourse(course);
                                     note.setUser(user);
                                     note.setNoteStatus(NoteStatus.pending);
-                                    note.setAverageRating(null);
+                                    note.setAverageRating(0);
+                                    note.setTotalRatingCount(0);
                                     resultNote = this.noteRepo.save(note);
                                 }
                             }

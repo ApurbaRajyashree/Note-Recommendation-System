@@ -107,4 +107,10 @@ public class User implements Serializable {
     @JsonManagedReference(value = "user_table")
     private List<Comments> comments;
 
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "user_table")
+    private List<Rating> ratings;
+
+
+
 }
