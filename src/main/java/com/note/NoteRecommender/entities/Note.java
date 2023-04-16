@@ -74,7 +74,7 @@ public class Note {
     @JsonBackReference(value = "user_table")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "note")
-    @JsonManagedReference(value = "ratings")
-    private List<Rating> ratings;
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "note")
+//    @JsonManagedReference(value = "ratings")
+//    private List<Rating> ratings;
 }

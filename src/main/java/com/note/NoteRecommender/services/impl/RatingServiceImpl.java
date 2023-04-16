@@ -30,8 +30,8 @@ public class RatingServiceImpl implements RatingService {
         if(rating.getValue()>rating.getMaxRating()){
             throw new RuntimeException("Rating cannot be more than 5.");
         }
-        rating.setNote(note);
-        rating.setUser(user);
+//        rating.setNote(note);
+//        rating.setUser(user);
         return ratingRepo.save(rating);
     }
 

@@ -43,10 +43,6 @@ public class Department {
 
     private boolean deleted=Boolean.FALSE;
 
-//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "department")
-//    @JsonManagedReference(value = "department_table")
-//    private List<UserDepartment> userDepartmentList;
-
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "department")
     @JsonManagedReference(value = "department_table")
     private List<Semester> semesterList;

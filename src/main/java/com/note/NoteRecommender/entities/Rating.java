@@ -21,15 +21,15 @@ public class Rating implements Comparable<Rating>{
     @Column(name = "rate_id")
     private Long ratingId;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name="note_id_fk",referencedColumnName = "note_id")
-    @JsonBackReference(value = "note_table")
-    private Note note;
+//    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//    @JoinColumn(name="note_id_fk",referencedColumnName = "note_id")
+//    @JsonBackReference(value = "note_table")
+//    private Note note;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id_fk",referencedColumnName = "user_id")
-    @JsonBackReference(value = "user_table")
-    private User user;
+//    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//    @JoinColumn(name = "user_id_fk",referencedColumnName = "user_id")
+//    @JsonBackReference(value = "user_table")
+//    private User user;
 
     private float value;
 

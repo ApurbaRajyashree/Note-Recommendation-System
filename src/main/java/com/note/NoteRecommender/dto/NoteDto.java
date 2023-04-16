@@ -46,7 +46,7 @@ public class NoteDto {
 
     private User user;
 
-    private List<Rating> ratings;
+   // private List<Rating> ratings;
 
 
 }

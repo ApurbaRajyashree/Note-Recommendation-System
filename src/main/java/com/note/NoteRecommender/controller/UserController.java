@@ -1,6 +1,5 @@
 package com.note.NoteRecommender.controller;
 
-
 import com.note.NoteRecommender.dto.UserDto;
 import com.note.NoteRecommender.entities.UserStatus;
 import com.note.NoteRecommender.helper.ApiResponse;
@@ -39,7 +38,7 @@ public class UserController {
     private UserService userService;
 
     //POST -create User
-    @PostMapping(value = "/department/{departmentId}/create",consumes = {"application/json"})
+    @PostMapping(value = "/department/{departmentId}/create", consumes = {"application/json"})
     public ResponseEntity<UserDto> createUser(@Valid @PathVariable("departmentId") Long departmentId, @RequestBody UserDto user) throws Exception {
         UserDto createuser = this.userService.createUser(user, departmentId);
         return new ResponseEntity<>(createuser, HttpStatus.CREATED);
@@ -145,7 +144,7 @@ public class UserController {
     }
 
     @GetMapping("/view-all-approved-student")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserDto>> viewAllApprovedStudent() {
         List<UserDto> allApprovedStudent = this.userService.viewAllApprovedStudent();
         return new ResponseEntity<>(allApprovedStudent, HttpStatusCode.valueOf(200));

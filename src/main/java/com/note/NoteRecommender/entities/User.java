@@ -75,10 +75,6 @@ public class User implements Serializable {
     )
     private Set<Department> departments;
 
-//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user")
-//    @JsonManagedReference(value = "user_table")
-//    private List<UserDepartment> userDepartmentList;
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_course",
@@ -107,9 +103,9 @@ public class User implements Serializable {
     @JsonManagedReference(value = "user_table")
     private List<Comments> comments;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JsonManagedReference(value = "user_table")
-    private List<Rating> ratings;
+//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+//    @JsonManagedReference(value = "user_table")
+//    private List<Rating> ratings;
 
 
 

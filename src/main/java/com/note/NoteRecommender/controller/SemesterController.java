@@ -1,6 +1,5 @@
 package com.note.NoteRecommender.controller;
 
-
 import com.note.NoteRecommender.dto.SemesterDto;
 import com.note.NoteRecommender.helper.ApiResponse;
 import com.note.NoteRecommender.entities.Semester;

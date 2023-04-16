@@ -45,7 +45,7 @@ public class SemesterServiceImpl implements SemesterService {
         for (Department eachDepartment : Departments
         ) {
             Department department1 = eachDepartment;
-            if (department1.getDepartmentId().equals(department.getDepartmentId())) {
+            if (department1.getDepartmentId().equals(departmentId)) {
                 List<Semester> semesters = department1.getSemesterList();
                 for (Semester eachSemester : semesters
                 ) {
@@ -56,7 +56,6 @@ public class SemesterServiceImpl implements SemesterService {
                 Semester semester = new Semester();
                 semester.setSemesterName(semesterDto.getSemesterName());
 
-
                 semester.setDepartment(department);
                 semester.setUsers(Set.of(user));
                 user.getSemesters().add(semester);
@@ -64,8 +63,6 @@ public class SemesterServiceImpl implements SemesterService {
                 resultSemester = this.semesterRepo.save(semester);
                 semesterDto1.setSemesterId(resultSemester.getSemesterId());
                 semesterDto1.setSemesterName(resultSemester.getSemesterName());
-
-
             }
         }
         return semesterDto1;

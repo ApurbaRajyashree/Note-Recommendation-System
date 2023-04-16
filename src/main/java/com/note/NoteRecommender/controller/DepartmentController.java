@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatusCode;
 import java.util.List;
 
 @RestController
-
 public class DepartmentController {
 
 
@@ -41,7 +40,7 @@ public class DepartmentController {
     //delete
     @DeleteMapping("/user/{userId}/department/{departmentName}/delete")
     @PreAuthorize("hasAuthority('manage_department')")
-    public ResponseEntity<ApiResponse> deleteDepartment(@PathVariable Long userId,@RequestBody String departmentName){
+    public ResponseEntity<ApiResponse> deleteDepartment(@PathVariable Long userId,@PathVariable String departmentName){
         this.departmentService.deleteDepartment(userId,departmentName);
         return new ResponseEntity<>(new ApiResponse("Department is deleted successfully",true), HttpStatus.OK);
     }
