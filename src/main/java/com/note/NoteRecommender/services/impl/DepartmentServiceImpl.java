@@ -69,10 +69,8 @@ public class DepartmentServiceImpl implements DepartmentService {
                     departmentDto1.setDepartmentId(department.getDepartmentId());
                     departmentDto1.setDepartmentName(department.getDepartmentName());
                     departmentDto1.setDepartmentDescription(department.getDepartmentDescription());
-
                 }
             }
-
         } else {
             throw new Exception("there is no departments created by the given user!!!");
         }
@@ -93,50 +91,27 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public DepartmentDto getDepartmentByName(Long userId, String name) {
+    public DepartmentDto getDepartmentByName(String name) {
         DepartmentDto resultDto = new DepartmentDto();
 
-        User retrievedUser = this.queryHelper.getUserMethod(userId);
         Department resultDepartment = this.departmentRepo.findByDepartmentName(name);
-        Set<Department> departments = retrievedUser.getDepartments();
-        if (!departments.isEmpty()) {
-            for (Department eachDepartment : departments) {
-                if (eachDepartment.getDepartmentId().equals(resultDepartment.getDepartmentId())) {
-                    if (resultDepartment != null) {
-                        resultDto.setDepartmentId(resultDepartment.getDepartmentId());
-                        resultDto.setDepartmentName(resultDepartment.getDepartmentName());
-                        resultDto.setDepartmentDescription(resultDepartment.getDepartmentDescription());
-                    } else {
-                        return null;
-                    }
-                }
-            }
-        }
+
+        resultDto.setDepartmentId(resultDepartment.getDepartmentId());
+        resultDto.setDepartmentName(resultDepartment.getDepartmentName());
+        resultDto.setDepartmentDescription(resultDepartment.getDepartmentDescription());
+
 
         return resultDto;
     }
 
     @Override
-    public String deleteDepartment(Long userId, String departmentName) {
-        User retrievedUser = this.queryHelper.getUserMethod(userId);
+    public String deleteDepartment(String departmentName) {
 
         Department department = this.departmentRepo.findByDepartmentName(departmentName);
         if (department == null) {
             return "there is no department exist with the given name";
         } else {
-            Set<Department> departments = retrievedUser.getDepartments();
-            if (!departments.isEmpty()) {
-                for (Department eachDepartment : departments
-                ) {
-                    if (eachDepartment.getDepartmentId().equals(department.getDepartmentId())) {
-                        //eachDepartment.getUsers().remove(retrievedUser);
-                        this.departmentRepo.deleteById(department.getDepartmentId());
-                    }
-                }
-            } else {
-                return "there is no department created by the given user with id " + retrievedUser.getUserId();
-            }
-
+            this.departmentRepo.deleteById(department.getDepartmentId());
         }
         return "department deleted successfully";
     }

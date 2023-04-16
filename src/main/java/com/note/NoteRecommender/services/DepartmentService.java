@@ -16,8 +16,8 @@ public interface DepartmentService {
 
     List<DepartmentDto> getAllDepartments(Long userId);
 
-    DepartmentDto getDepartmentByName(Long userId, String name);
+    DepartmentDto getDepartmentByName(String name);
 
 
-    String deleteDepartment(Long userId,String departmentName);
+    String deleteDepartment(String departmentName);
 }

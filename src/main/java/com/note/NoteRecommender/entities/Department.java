@@ -21,7 +21,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-@SQLDelete(sql = "UPDATE faculty_table f set f.deleted=true where f.faculty_id=?")
+@SQLDelete(sql = "UPDATE department_table f set f.deleted=true where f.department_id=?")
 @Where(clause = "deleted=false")
 public class Department {
 

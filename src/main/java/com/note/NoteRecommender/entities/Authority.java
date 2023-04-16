@@ -1,5 +1,6 @@
 package com.note.NoteRecommender.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,6 +27,7 @@ public class Authority implements GrantedAuthority {
     @Column(name = "authority_name")
     private String authorityName;
     @ManyToMany(mappedBy = "authorities")
+    @JsonIgnore
     private Set<Role> roles;
 
     public Authority(String authorityName) {

@@ -46,8 +46,8 @@ public class UserController {
 
     //PUT -update user
     @PutMapping("/{userId}/update")
-    public ResponseEntity<User> updateUser(@Valid @RequestBody User user, @PathVariable("userId") Long userId) {
-        User updatedUser = this.userService.updateUser(userId, user);
+    public ResponseEntity<UserDto> updateUser(@Valid @RequestBody User user, @PathVariable("userId") Long userId) {
+        UserDto updatedUser = this.userService.updateUser(userId, user);
         return ResponseEntity.ok(updatedUser);
 
     }
@@ -67,12 +67,6 @@ public class UserController {
     @GetMapping("/")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         return ResponseEntity.ok(this.userService.getAllUSer());
-    }
-
-
-    @GetMapping("/{userId}/")
-    public ResponseEntity<User> getSingleUser(@PathVariable("userId") Long userId) {
-        return ResponseEntity.ok(this.userService.getUserById(userId));
     }
 
     @GetMapping("/readByEmail")

@@ -38,18 +38,18 @@ public class DepartmentController {
     }
 
     //delete
-    @DeleteMapping("/user/{userId}/department/{departmentName}/delete")
+    @DeleteMapping("/department/{departmentName}/delete")
     @PreAuthorize("hasAuthority('manage_department')")
-    public ResponseEntity<ApiResponse> deleteDepartment(@PathVariable Long userId,@PathVariable String departmentName){
-        this.departmentService.deleteDepartment(userId,departmentName);
+    public ResponseEntity<ApiResponse> deleteDepartment(@PathVariable String departmentName){
+        this.departmentService.deleteDepartment(departmentName);
         return new ResponseEntity<>(new ApiResponse("Department is deleted successfully",true), HttpStatus.OK);
     }
 
     //get
-    @GetMapping("/user/{userId}/department/{departmentName}/read")
+    @GetMapping("/department/{departmentName}/read")
     @PreAuthorize("hasAuthority('manage_department')")
-    ResponseEntity<?> getDepartmentByName(@PathVariable("userId")Long userId,@PathVariable("departmentName")String departmentName){
-        DepartmentDto departmentByName=this.departmentService.getDepartmentByName(userId,departmentName);
+    ResponseEntity<?> getDepartmentByName(@PathVariable("departmentName")String departmentName){
+        DepartmentDto departmentByName=this.departmentService.getDepartmentByName(departmentName);
         if(departmentByName!=null){
             return new ResponseEntity<>(departmentByName,HttpStatusCode.valueOf(200));
         }

@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public interface UserService {
 
-    UserDto  createUser(UserDto  userDto,Long departmentId) throws Exception;
+    UserDto createUser(UserDto userDto, Long departmentId) throws Exception;
 
     UserDto getUserByEmail(String email);
 
@@ -20,9 +20,7 @@ public interface UserService {
 
     String deleteUser(Long userId);
 
-    public User getUserById(Long userId);
-
-    User updateUser(Long userId,User updatedUser);
+    UserDto updateUser(Long userId, User updatedUser);
 
     String approveUser(Long userId);
 

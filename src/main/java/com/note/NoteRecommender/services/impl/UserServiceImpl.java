@@ -119,11 +119,7 @@ public class UserServiceImpl implements UserService {
         return userDto;
     }
 
-    @Override
-    public User getUserById(Long userId) {
-        User user = this.queryHelper.getUserMethod(userId);
-        return user;
-    }
+
 
     @Override
     public List<UserDto> getAllUSer() {
@@ -201,16 +197,15 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User updateUser(Long userId, User updatedUser) {
+    public UserDto updateUser(Long userId, User updatedUser) {
         User retrievedUser = queryHelper.getUserMethod(userId);
-        retrievedUser.setUserName(updatedUser.getUserName());
-        retrievedUser.setEmail(updatedUser.getEmail());
+        UserDto userDto=new UserDto();
         retrievedUser.setPassword(updatedUser.getPassword());
         retrievedUser.setPhoneNumber(updatedUser.getPhoneNumber());
-        retrievedUser.setBatch(updatedUser.getBatch());
         retrievedUser = this.userRepo.save(retrievedUser);
-
-        return retrievedUser;
+        userDto.setPassword(retrievedUser.getPassword());
+        userDto.setPhoneNumber(retrievedUser.getPhoneNumber());
+        return userDto;
     }
 
     @Override

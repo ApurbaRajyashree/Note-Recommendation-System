@@ -1,6 +1,7 @@
 package com.note.NoteRecommender.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class Role implements Serializable {
     @Column(name="role_name",unique = true,nullable = false)
     private String roleName;
     @ManyToMany(mappedBy = "userRoles")
+    @JsonIgnore
     private Set<User> userSet;
 
     @ManyToMany(fetch = FetchType.EAGER)
